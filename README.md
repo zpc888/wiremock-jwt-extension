@@ -145,6 +145,32 @@ Or even nested objects
 ```
 {% endraw %}
 
+### Custom headers
+
+Pass a map to the `header` parameter to add custom JWT headers. For example,
+this adds a `customHeader` header with the value `customValue`:
+
+{% raw %}
+```handlebars
+{{{jwt header=(claimsObject customHeader='customValue')}}}
+```
+{% endraw %}
+
+If your custom headers include a `header` key, set
+`-Dextension.jwt.custom.header.name=_header_` when starting WireMock and pass
+the map as `_header_`:
+
+{% raw %}
+```handlebars
+{{{jwt _header_=(claimsObject header='value')}}}
+```
+{% endraw %}
+
+Some JWT headers are managed by the extension or signing library:
+
+- `alg` is set from the selected signing algorithm and cannot be overridden.
+- `kid` is set from the signing key ID if the algorithm has key ID.
+- `typ` defaults to `JWT`, but a custom value takes precedence.
 
 ### Signing with RS256
 
