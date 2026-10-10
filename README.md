@@ -157,12 +157,18 @@ algorithm:
 ```
 {% endraw %}
 
-## Retrieving keys
+## Resolving keys
+
+By default, the extension generates an HS256 secret and an RS256 key pair at startup. The keys are
+available from WireMock's settings admin API; the RS256 public key can also be served as a JWKS.
+Configure the system properties below when you need to provide your own signing key or secret.
+
+### Retrieving keys
 
 For clients to be able to validate JWTs, they need to be able to retrieve either
 the shared secret or the public key, depending on the signing algorithm.
 
-### Getting all keys for your mock API
+#### Getting all keys for your mock API
 
 The keys used to sign tokens for a particular mock API can be retrieved via the
 settings admin API resource. To fetch these via curl, you can do the following:
@@ -189,7 +195,7 @@ keys:
 }
 ```
 
-### The JSON Web Key Set (JWKS)
+#### The JSON Web Key Set (JWKS)
 
 When using `RS256` (public/private key) signing, it is common for clients to fetch
 the public key for verification via a JSON Web Key Set (JWKS) endpoint. You serve
@@ -201,3 +207,20 @@ body (with templating enabled):
 {{{jwks}}}
 ```
 {% endraw %}
+
+### Configuring signing keys
+
+Set these JVM system properties before starting WireMock. Unset properties use generated values:
+
+- `extension.jwt.hs256.secretKeyValue`: HS256 shared secret.
+- `extension.jwt.rs256.privateKeyFile`: RS256 private key, loaded from a file or classpath resource.
+  Use an unencrypted PKCS#8 PEM key; the extension derives its public key.
+- `extension.jwt.rs256.publicKeyId`: optional stable ID for the RS256 public key.
+
+Example:
+
+```shell
+java -Dextension.jwt.rs256.privateKeyFile=/path/to/private-key.pem \
+     -Dextension.jwt.rs256.publicKeyId=my-signing-key \
+     -jar wiremock-standalone.jar
+```
