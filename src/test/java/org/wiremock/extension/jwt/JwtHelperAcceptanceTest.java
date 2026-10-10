@@ -50,7 +50,10 @@ public class JwtHelperAcceptanceTest {
   @RegisterExtension
   static WireMockExtension wm =
       WireMockExtension.newInstance()
-          .options(WireMockConfiguration.options().extensions(new JwtExtensionFactory()))
+          .options(
+              WireMockConfiguration.options()
+                  .dynamicPort()
+                  .extensions(new JwtExtensionFactory()))
           .build();
 
   @BeforeEach
