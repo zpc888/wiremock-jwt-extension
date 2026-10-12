@@ -157,12 +157,12 @@ this adds a `customHeader` header with the value `customValue`:
 {% endraw %}
 
 If your custom headers include a `header` key, set
-`-Dextension.jwt.custom.header.name=_header_` when starting WireMock and pass
-the map as `_header_`:
+`-Dextension.jwt.header.name=__header` when starting WireMock and pass
+the map as `__header`:
 
 {% raw %}
 ```handlebars
-{{{jwt _header_=(claimsObject header='value')}}}
+{{{jwt __header=(claimsObject header='value')}}}
 ```
 {% endraw %}
 

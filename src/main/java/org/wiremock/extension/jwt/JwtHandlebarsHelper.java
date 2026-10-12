@@ -17,7 +17,7 @@ import java.util.Set;
 
 public class JwtHandlebarsHelper extends HandlebarsHelper<Object> {
     private static final String CUSTOM_JWT_HEADER_NAME = System.getProperty(
-            "extension.jwt.custom.header.name", "header");
+            "extension.jwt.header.name", "header");
 
     private static final Set<String> RESERVED_PARAMETERS = ImmutableSet.of(
             "exp",
